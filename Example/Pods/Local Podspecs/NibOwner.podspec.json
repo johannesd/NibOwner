@@ -1,0 +1,24 @@
+{
+  "name": "NibOwner",
+  "version": "1.0.0",
+  "swift_version": "4.2",
+  "summary": "Utility for creating view from NIB",
+  "description": "NIB files offer a convenient way to build view hierarchies. This lib provides a protocol that adds a factory function to the view class.",
+  "homepage": "https://github.com/johannesd/NibOwner",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Johannes Dörr": "mail@johannesdoerr.de"
+  },
+  "source": {
+    "git": "https://github.com/johannesd/NibOwner.git",
+    "tag": "1.0.0"
+  },
+  "social_media_url": "https://twitter.com/johdoerr",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "NibOwner/Classes/**/*"
+}

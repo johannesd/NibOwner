@@ -1,0 +1,6 @@
+framework module Pods_NibOwner_Example {
+  umbrella header "Pods-NibOwner_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

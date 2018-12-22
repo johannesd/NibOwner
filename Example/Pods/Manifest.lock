@@ -1,0 +1,16 @@
+PODS:
+  - NibOwner (1.0.0)
+
+DEPENDENCIES:
+  - NibOwner (from `../`)
+
+EXTERNAL SOURCES:
+  NibOwner:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  NibOwner: c1c587e276a61f4b734f2c1777be7352edfbdbd5
+
+PODFILE CHECKSUM: 2365e37276676c8eb0afaa528f06e92739e46a6c
+
+COCOAPODS: 1.5.3

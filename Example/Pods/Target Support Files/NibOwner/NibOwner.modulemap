@@ -1,0 +1,6 @@
+framework module NibOwner {
+  umbrella header "NibOwner-umbrella.h"
+
+  export *
+  module * { export * }
+}

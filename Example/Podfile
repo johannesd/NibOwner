@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'NibOwner_Example' do
+  pod 'NibOwner', :path => '../'
+
+  target 'NibOwner_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
