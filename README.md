@@ -10,9 +10,9 @@ There are quite some suggestions on Stack Overflow, but since they looked ugly t
 
 ### How XIBs/NIBs work
 
-In order to create a view from a NIB, you typically use something like `Bundle.main.loadNibNamed("MyView", owner: nil, options: nil)`. This function is using the same API that you can use to (de)serialize classes: The `NSCoding` protocol. It is a universal concept: Any class that conforms to that protocol can be stored as JSON or XML, and be loaded again later, which would restore the complete state, i.e. the properties. If you don't know `NSCoding`, you might now `Codable`, which is similar (but better) and has been introduced in Swift 4. A typical use case is storing application data in a struct and then encoding it as a JSON in order to save it as a text file. When the app launches the next time, the JSON can be decoded to get the original struct with all its contents back.
+In order to create a view from a NIB, you typically use something like `Bundle.main.loadNibNamed("MyView", owner: nil, options: nil)`. This function is using the same API that you can use to (de)serialize classes: The `NSCoding` protocol. It is a universal concept: Any class that conforms to that protocol can be stored as JSON or XML, and can be loaded again later, which would restore the complete state, i.e. the properties. If you don't know `NSCoding`, you might know `Codable`, which is similar (but better) and has been introduced in Swift 4. A typical use case is storing application data in a struct and then encoding it as a JSON in order to save it as a text file. When the app launches the next time, the JSON can be decoded to get the original struct with all its contents back.
 
-You can do the same with UIViews, beause it conforms to `NSCodable`. While you probably never have thougt of saving a view as a file, you probably have loaded views from a file a many times before: every time you have been using a XIB or NIB. A NIB file is basically the encoded version of a view, that can be decoded at runtime. When that happens, all properties of the view, like background color, frame, subviews, etc. will be set.
+You can do the same with UIViews, beause it conforms to `NSCodable`. While you probably never have thougt of saving a view as a file, you probably have loaded views from a file many times before: every time you have been using a XIB or NIB. A NIB file is basically the encoded version of a view, that can be decoded at runtime. When that happens, all properties of the view, like background color, frame, subviews, etc. will be set.
 
 Have you ever wondered why the compiler forces you to implement `init(coder:)` whenever you create a custom initializer? That is because of `Codable`. The protocol has a required initializer that all classes must have. Since implementing an initializer in a subclass hides all initializers of the super class, you have to add that required initializer again to make sure it is available. Otherwise, the class would not be decodable. 
 
@@ -27,7 +27,7 @@ Now, back to building a reusable view using a XIB. Here is what we want:
 
 And here is why it does not work:
 
-- In order to use a custom view class in a ViewController NIB or storyboard, you add a create regular view and insert your custom class' name into the *Custom class* field. This only works for views completely written in code, though. Why? Well, when that ViewController NIB is loded and your custom view is about to be initialized, the `init(coder:)` initializer of your custom class is called with the content from the ViewController, and not from your custom view NIB. The view will use the custom class, but the subviews will not be there, and the outlets will not be set.
+- In order to use a custom view class in a ViewController NIB or storyboard, you add a regular view and insert your custom class' name into the *Custom class* field. This only works for views completely written in code, though. Why? Well, when that ViewController NIB is loded and your custom view is about to be initialized, the `init(coder:)` initializer of your custom class is called with the content from the ViewController, and not from your custom view NIB. The view will use the custom class, but the subviews will not be there, and the outlets will not be set.
 - In order to create your custom view using an initializer like `MyView(frame:)`, we would have to implement that initializer in a way that it uses `loadNibNamed(:owner:options)` to load the nib, and then return that object. But that's not how initializers work. By the time init is called, the object has already be created. We cannot replace it with another object. If Swift ever introduces *factory initializers*, those could be a solution for that.  
 
 ### Why does it work with ViewControllers?
@@ -37,7 +37,7 @@ When creating the UI for a ViewController, this problem does not appear. We set 
 ### Conclusion 
 
 - For reusing views, Apple focuses on TableView and CollectionView. Those APIs also offer view reusage for best performance, so use that if possible.
-- The reuse behavior in TableView and CollectionView made me realize that custom initializers with parameters might not be a good idea for view anyway, because they break such reuse behaviour. When the view is going to be reused, all parameters must be changable. So, all parameters handed over to the constructor should be available as changable property, anyway.
+- The reuse behavior in TableView and CollectionView made me realize that custom initializers with parameters might not be a good idea for views anyway, because they break such reuse behaviour. When the view is going to be reused, all parameters must be changable. So, all parameters handed over to the constructor should be available as changable properties, anyway.
 - Are you building a view with many controls, like buttons etc.? Maybe this component should be implemented as a ViewController, and you can perfectly use a NIB for that.
 - Implement small views in pure code. A NIB would be overhead, and not worth the hussle.
 - For all other cases where you definitely need a regular view and want to design it using a NIB, use this librabry. A good example would be a TableHeaderView.   
@@ -56,7 +56,7 @@ public class ExampleView: UIView, NibOwner {
 }
 ```
 
-Adding `init?(coder:)` is not required, but hides all other initializers, like `init(frame:)`. This initializer would not use your XIB, so you should make sure that another programmer is not tempted to use that wrong initialier.  
+Adding `init?(coder:)` is not required, but hides all other initializers, like `init(frame:)`. This initializer would not use your XIB, so you should make sure that another programmer is not tempted to use that wrong initializer.  
 
 Create a XIB file. Change the custom class name of the root view to *ExampleView*. Don't set *File Owner*. Create outlets using drag and drop in the Assistent Editor.
 
