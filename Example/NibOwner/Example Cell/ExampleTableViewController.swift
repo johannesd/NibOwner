@@ -16,7 +16,7 @@ class ExampleTableViewController: UITableViewController {
 
         // You typically instantiate cells yourselve (which would be possible using `ExampleCell.fromNib()`).
         // Instead, you register the class to the tableView:
-        tableView.register(ExampleCell.self, forCellWithReuseIdentifier: "ExampleCell")
+        tableView.register(ExampleCell.self, forCellReuseIdentifier: "ExampleCell")
     }
 
     // MARK: - Table view data source

@@ -9,7 +9,7 @@
 import Foundation
 
 extension UITableView {
-    open func register<Class: Any>(_ Class: Class.Type, forCellWithReuseIdentifier reuseIdentifier: String) where Class: UITableViewCell & NibOwner {
+    open func register<Class: Any>(_ Class: Class.Type, forCellReuseIdentifier reuseIdentifier: String) where Class: UITableViewCell & NibOwner {
         self.register(UINib(nibName: Class.nibName, bundle: Bundle(for: Class)), forCellReuseIdentifier: reuseIdentifier)
     }
 }
